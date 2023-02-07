@@ -1,0 +1,15 @@
+{
+    "led": {
+        "led_1": 1,
+        "led_2": 1,
+        "led_3": 1,
+        "lampe salom": 1,
+        "tele": 1
+    },
+    "capteur": {
+        "temperature": 491,
+        "humiditer": 4859,
+        "cap_17": 497,
+        "cap_19": 256
+    }
+}
