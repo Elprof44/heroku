@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block contena %}
 <hr>
-<div class="contena row"> 
+<div class="contena row" id="cmd"> 
     {% for key in db.keys() %}
     {% for i in db[key] %}
     {% if  key == 'led' %}
     <div class="col-lg-3">
-      <img id="{{ i + etat }}" onclick="Onbtm(demo('{{i}}','{{ i+ etat}}'))" src="{{ 'static/img/eteindre.png' if db[key][i] != 'Allumer' else 'static/img/alumer.png'}}" alt="" class="bd-placeholder-img rounded-circle" width="140" height="140" role="img">
+      <img id="{{ i + etat }}" onclick="Onbtm(demo('{{i}}','{{ i+ etat}}'))" src="{{ 'static/img/eteindre.png' if db[key][i] != 'ON' else 'static/img/alumer.png'}}" alt="" class="bd-placeholder-img rounded-circle" width="140" height="140" role="img">
         <br>
       <h2 class="fw-normal">{{i}}</h2>
       <br>
@@ -19,4 +19,11 @@
   {% endfor %}
 </div>
 <hr>
+<script>
+  setInterval(
+    function(){
+      $('#cmd').load(' #cmd')
+      },2000
+  )
+</script>
 {% endblock %}

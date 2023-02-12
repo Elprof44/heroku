@@ -1,7 +1,8 @@
-from flask import Flask , render_template ,request
+from flask import Flask , render_template ,request, session,redirect,url_for
 import json
 
 app = Flask(__name__)
+app.secret_key = 'sfuffelklkelefmFELROERer6658'
 
 def openfile():
     with open("db.json",'r',encoding='utf8') as f:
@@ -19,18 +20,25 @@ def capteur():
     db =openfile()
     return render_template('capteur.html',db = db)
 
-@app.route('/')
+@app.route('/', methods=["GET","POST"])
 def log():
-    return render_template('login.html')
-
-@app.route("/home",methods=["GET","POST"])
-def home():
-    mail = request.form.get('mail')
-    pwd = request.form.get("pwd")
-    if mail == "admin" and pwd == "adm":
-        return render_template("home.html")
+    if request.method == 'POST':
+        session['main'] = request.form.get('mail')
+        session["pwd"] = request.form.get("pwd")
+        if session['main'] == "admin" and session['pwd'] == "adm":
+            return redirect(url_for("home"))
+        else:
+            return render_template('login.html' , alert = 'email or pwd incorrect')
     else:
-        return render_template('login.html' , alert = 'email or pwd incorrect')
+        return render_template('login.html')
+
+@app.route("/home")
+def home():
+    if session['main'] == "admin" and session['pwd'] == "adm":
+        return render_template('home.html')
+    else:
+        return redirect(url_for("log"))
+    
 
 @app.route('/commad')
 def commad():
@@ -39,9 +47,9 @@ def commad():
     for key in db.keys():
         for elem in db[key]:
             if db[key][elem] == 1 and key == 'led':
-               db[key][elem] = 'Allumer'
+               db[key][elem] = 'ON'
             elif db[key][elem]== 0 and key == 'led' :
-               db[key][elem] = 'Eteindre'
+               db[key][elem] = 'OFF'
             else:
                 pass
     return render_template('commad.html', db = db ,etat ='etat')
