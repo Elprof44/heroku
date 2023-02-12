@@ -7,3 +7,4 @@ jsons==1.6.3
 MarkupSafe==2.1.2
 typish==1.9.3
 Werkzeug==2.2.2
+gunicorn==20.1.0
